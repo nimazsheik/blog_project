@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %} <!--now we can use the crispy filter on any of our form-->
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- hidden token very needed for forms in django to protect form from certain attacks -->
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Join Today
+                </legend>
+                    {{ form|crispy }}
+                    <!--so create new form forms.py in users -->
+
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already have an account? <a href="#" class="ml-2">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
