@@ -1,0 +1,5 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %} <!--now we can use the crispy filter on any of our form-->
+{% block content %}
+    <h1>{{ user.username }}</h1>
+{% endblock content %}
