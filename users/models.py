@@ -1,12 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg',upload_to='profile_pics')
 
     def __str__(self):
-        # return how we want this to be displaed
         return f'{self.user.username} Profile'
-        # when we print profile, it will print 'Nimaz Profile'
-        # to work with images run Pillow(library)
+
+    def save(self):
+        # run save method of parent class
+        super().save()
+        # grab image that is saved and resize it
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)  # tuple
+            img.thumbnail(output_size)
+            img.save(self.image.path)
