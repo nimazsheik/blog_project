@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Post
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
-    UpdateView, DeleteView)
+    UpdateView,
+    DeleteView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -61,6 +64,17 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
     success_url = '/'
+
+
+class UserPostListView(ListView):
+    model = Post
+    template_name = 'blog/user_posts.html'  # filter that only gets posts from certain user(from url)
+    context_object_name = 'posts'
+    paginate_by = 3
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))  # get username from url
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 def about(request):

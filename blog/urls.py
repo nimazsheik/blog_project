@@ -5,7 +5,8 @@ from .views import (
     PostDetailView,
     PostCreateView,
     PostUpdateView,
-    PostDeleteView
+    PostDeleteView,
+    UserPostListView
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path('post/new/', PostCreateView.as_view(), name='post-create'),  # this naming is post_form <model_form>
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # post_confirm_delete.html
+    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'), # now create user_posts.html in templates
 ]
