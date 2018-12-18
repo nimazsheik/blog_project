@@ -20,6 +20,7 @@ class PostListView(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
+    paginate_by = 3
 
 
 class PostDetailView(DetailView):
@@ -53,6 +54,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
+
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
